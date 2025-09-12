@@ -1,6 +1,6 @@
 ; ===== FT_STRLEN ============================================================================ ;
 ;  Function  : ft_strlen.asm
-;  Prototype : size_t ft_strlen(const char *str)
+;  Prototype : size_t ft_strlen(const char * str)
 ;  Purpose   : Immitates (man 3 strlen)
 ;  Args      : rdi - pointer to string
 ;  Returns   : rax = length
@@ -12,11 +12,19 @@ segment .text
 	global	ft_strlen
 
 ft_strlen:
-	xor rax, rax	; clear register (initialise rax = 0) 
+
+	; -- clear register (initialise rax = 0) --
+	xor rax, rax
+
 .repeat:
+
+	; -- if null reached, return --
 	cmp byte [rdi + rax], 0
-	je .done
+	je .return
+
+	; -- else increment and repeat --
 	inc rax
 	jmp .repeat
-.done:
+
+.return:
 	ret
