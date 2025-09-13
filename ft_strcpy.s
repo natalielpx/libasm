@@ -2,7 +2,7 @@
 ;  Function  : ft_strcpy.s
 ;  Prototype : char * ft_strcpy(char * dst, const char * src);
 ;  Purpose   : Immitates (man 3 strcpy)
-;  Args      : rdi - pointer to dst, rsi pointer to src
+;  Args      : rdi - pointer to dst, rsi - pointer to src
 ;  Returns   : rax = pointer to dst
 ;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)

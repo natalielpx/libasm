@@ -1,12 +1,15 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 #define STD_IN 0
 #define STD_OUT 1
 
 size_t ft_strlen(const char * str);
 char * ft_strcpy(char * dst, const char * src);
+
+char * ft_strdup(const char * s);
 ssize_t ft_write(int fd, const void *buf, size_t count);
 ssize_t ft_read(int fd, void * buf, size_t count);
 
@@ -37,6 +40,19 @@ int main(void) {
     printf("\n===== FT_STRCPY =====\n");
     printf("strcpy    : %s\n", strcpy(buf, str));
     printf("ft_strcpy : %s\n", ft_strcpy(buf, str));
+    printf("=====================\n");
+
+
+    printf("\n===== FT_STRDUP =====\n");
+
+    char * dup = strdup(str);
+    printf("strdup    : %s\n", dup);
+    free(dup);
+    
+    dup = ft_strdup(str);
+    printf("ft_strdup : %s\n", dup);
+    free(dup);
+    
     printf("=====================\n");
 
 
