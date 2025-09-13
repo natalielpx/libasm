@@ -1,6 +1,6 @@
 ; ===== FT_STRCPY ============================================================================ ;
 ;  Function  : ft_strcpy.asm
-;  Prototype : char * strcpy(char * dst, const char * src)
+;  Prototype : char * ft_strcpy(char * dst, const char * src);
 ;  Purpose   : Immitates (man 3 strcpy)
 ;  Args      : rdi - pointer to dst, rsi pointer to src
 ;  Returns   : rax = pointer to dst

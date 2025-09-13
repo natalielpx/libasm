@@ -1,6 +1,6 @@
 ; ===== FT_STRLEN ============================================================================ ;
 ;  Function  : ft_strlen.asm
-;  Prototype : size_t ft_strlen(const char * str)
+;  Prototype : size_t ft_strlen(const char * str);
 ;  Purpose   : Immitates (man 3 strlen)
 ;  Args      : rdi - pointer to string
 ;  Returns   : rax = length
