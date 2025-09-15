@@ -8,15 +8,14 @@
 
 size_t ft_strlen(const char * str);
 char * ft_strcpy(char * dst, const char * src);
-
+int ft_strcmp(const char * s1, const char * s2);
 char * ft_strdup(const char * s);
 ssize_t ft_write(int fd, const void *buf, size_t count);
 ssize_t ft_read(int fd, void * buf, size_t count);
 
 int main(void) {
 
-    char str[100];
-    char buf[100];
+    char str[100], buf[100];
 
     printf("==================\n");
     printf("===== LIBASM =====\n");
@@ -40,6 +39,21 @@ int main(void) {
     printf("\n===== FT_STRCPY =====\n");
     printf("strcpy    : %s\n", strcpy(buf, str));
     printf("ft_strcpy : %s\n", ft_strcpy(buf, str));
+    printf("=====================\n");
+
+    printf("\n===== FT_STRCMP =====\n");
+
+    char s1[100], s2[100];
+    printf("Please enter s1: ");
+    fgets(s1, sizeof(s1), stdin);
+    str[strcspn(s1, "\n")] = 0;
+    printf("Please enter s2: ");
+    fgets(s2, sizeof(s2), stdin);
+    str[strcspn(s2, "\n")] = 0;
+
+    printf("strcmp    : %d\n", strcmp(s1, s2));
+    printf("ft_strcmp : %d\n", ft_strcmp(s1, s2));
+
     printf("=====================\n");
 
 
