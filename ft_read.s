@@ -14,7 +14,6 @@ segment .text
 	global	ft_read
 
 ft_read:
-
 	mov rax, SYS_READ
 	syscall
 

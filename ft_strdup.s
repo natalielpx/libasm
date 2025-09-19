@@ -8,31 +8,30 @@
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
+default	rel			; PIE-safe
+extern	malloc
+extern	ft_strlen
+extern	ft_strcpy
+
 segment .text
 	global	ft_strdup
-	extern	malloc
-	default	rel			; PIE-safe
-	extern	ft_strlen
-	extern	ft_strcpy
 
 ft_strdup:
 
-	; -- save s ptr in stack --
+	; --- save s ptr in stack ---
 	push	rdi
 
-	; -- obtain s string length --
-	call	ft_strlen	; ft_strlen(s)
-
-	; -- allocate length + 1 memory --
+	; --- allocate length + 1 memory ---
+	call	ft_strlen			; ft_strlen(s)
 	inc		rax					; length + 1
 	mov		rdi, rax			; arg1 = length + 1
 	call	malloc wrt ..plt	; malloc(length + 1) with respect to procedure linkage table entry
 
-	; -- if malloc failed --
-	test	rax, rax
-	jz		.return
-
-	; -- copy from s to memory obtained via malloc --
+	; --- check if malloc failed ---
+	test	rax, rax	; if malloc returned null
+	jz		.return		; return
+	
+	; --- copy from s to memory obtained via malloc ---
 	pop		rdi			; restore s ptr from stack
 	mov		rsi, rdi	; set s as arg2
 	mov		rdi, rax	; set dup as arg1

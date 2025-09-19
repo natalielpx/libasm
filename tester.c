@@ -10,43 +10,46 @@ size_t  ft_strlen(const char * str);
 char *  ft_strcpy(char * dst, const char * src);
 int     ft_strcmp(const char * s1, const char * s2);
 char *  ft_strdup(const char * s);
-ssize_t ft_write(int fd, const void *buf, size_t count);
+ssize_t ft_write(int fd, const void * buf, size_t count);
 ssize_t ft_read(int fd, void * buf, size_t count);
 
 int main(void) {
-
-    char str[100], buf[100];
-
-    printf("==================\n");
+	
+	printf("==================\n");
     printf("===== LIBASM =====\n");
     printf("==================\n");
     
     // prompts user for string
+    char str[100];
     printf("Please enter a string: ");
     // reads line of text (spaces included)
     fgets(str, sizeof(str), stdin);
     // removes trailing newline
     str[strcspn(str, "\n")] = 0;
-
+	
 
     printf("\n===== FT_STRLEN =====\n");
-    size_t len_str = strlen(str);
-    printf("strlen    : %zu\n", strlen(str));
+	size_t len_str = strlen(str);
+    printf("strlen    : %zu\n", len_str);
     printf("ft_strlen : %zu\n", ft_strlen(str));
     printf("=====================\n");
 
 
     printf("\n===== FT_STRCPY =====\n");
+	char buf[100];
     printf("strcpy    : %s\n", strcpy(buf, str));
     printf("ft_strcpy : %s\n", ft_strcpy(buf, str));
     printf("=====================\n");
 
+
     printf("\n===== FT_STRCMP =====\n");
 
-    char s1[100], s2[100];
+    char s1[100];
     printf("Please enter s1: ");
     fgets(s1, sizeof(s1), stdin);
     str[strcspn(s1, "\n")] = 0;
+
+	char s2[100];
     printf("Please enter s2: ");
     fgets(s2, sizeof(s2), stdin);
     str[strcspn(s2, "\n")] = 0;
@@ -98,8 +101,6 @@ int main(void) {
     printf("%s\n", buf);
 
     printf("===================\n");
-
-    
 
     return 0;
 }

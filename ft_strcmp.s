@@ -13,27 +13,27 @@ segment .text
 
 ft_strcmp:
 
-.repeat:
+.compare:
 
 	; -- copy s1* & s2* int --
 	movzx eax, byte [rdi]	; moves lowest byte from rdi to zero extended (initialised) 32bits, which in x86-64 is extended to 64bits
 	movzx edx, byte [rsi]
 
-	; -- if s1* != s2*, find difference --
-	cmp rax, rdx
-	jne .diff
-
-	; -- if null reached, return --
-	test rax, rax
-	jz .return
-
+	; -- compare current characters of strings --
+	cmp rax, rdx	; if s1* != s2*
+	jne .diff		; find difference
+	
+	; -- check if end of strings --
+	test rax, rax	; if null reached
+	jz .return		; return
+	
 	; -- else increment and repeat --
-	inc rsi
-	inc rdi
-	jmp .repeat
+	inc rsi			; ++s1
+	inc rdi			; ++s2
+	jmp .compare	; repeat
 
 .diff:
-	sub rax, rdx
+	sub rax, rdx	; rax = s1* - s2*
 
 .return:
 	ret

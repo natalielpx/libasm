@@ -13,6 +13,7 @@ TESTER	= tester
 
 NASM    = nasm
 CC		= gcc
+ARMCC	= x86_64-linux-gnu-gcc
 AR      = ar
 RM      = rm
 
@@ -58,8 +59,12 @@ fclean: clean
 
 tester: $(NAME) $(TESTER).c
 	$(CC) ${CFLAGS} -c $(TESTER).c
-	$(CC) ${CFLAGS} $(DBFLAG) $(TESTER).o -L. -lasm -o tester
+	$(CC) ${CFLAGS} $(DBFLAG) $(TESTER).o -L. -lasm -o $(TESTER)
 
 re: fclean all
 
-.phony: all clean fclean tester re
+arm: $(NAME) $(TESTER).c
+	$(ARMCC) ${CFLAGS} -c $(TESTER).c
+	$(ARMCC) ${CFLAGS} $(DBFLAG) $(TESTER).o -L. -lasm -o $(TESTER)
+
+.phony: all clean fclean tester re arm

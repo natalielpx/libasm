@@ -14,7 +14,6 @@ segment .text
 	global	ft_write
 
 ft_write:
-
 	mov rax, SYS_WRITE
 	syscall
 

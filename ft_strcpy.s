@@ -12,24 +12,23 @@ segment .text
 	global	ft_strcpy
 
 ft_strcpy:
+	; --- store dst address for return ---
+	mov rax, rdi	; return value: dst (pointer)
 
-	; -- store dst address for return --
-	mov rax, rdi
+.copy:
 
-.repeat:
+	; --- copy current byte from src to dst ---
+	mov bl, [rsi]	; copy src* to register
+	mov [rdi], bl	; copy register to dst*
 
-	; -- copy current byte from src to dst --
-	mov bl, [rsi]
-	mov [rdi], bl
-
-	; -- if null reached, return --
-	test bl, bl		; check if 0
-	jz .return
-
-	; -- else increment and repeat --
-	inc rsi
-	inc rdi
-	jmp .repeat
+	; --- check if end of string ---
+	test bl, bl		; if null reached
+	jz .return		; return
+	
+	; --- increment and repeat ----
+	inc rsi			; else ++src
+	inc rdi			; ++ dst
+	jmp .copy		; repeat
 
 .return:
 	ret

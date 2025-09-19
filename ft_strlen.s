@@ -12,19 +12,18 @@ segment .text
 	global	ft_strlen
 
 ft_strlen:
+	; --- initialisation ---
+	xor rax, rax	; return value: length = 0
 
-	; -- clear register (initialise rax = 0) --
-	xor rax, rax
+.count:
 
-.repeat:
-
-	; -- if null reached, return --
-	cmp byte [rdi + rax], 0
-	je .return
-
-	; -- else increment and repeat --
-	inc rax
-	jmp .repeat
+	; --- check if end of string ---
+	cmp byte [rdi + rax], 0	; if null character (1 byte) reached
+	je .return				; return
+	
+	; --- count character ---
+	inc rax					; else increment
+	jmp .count				; repeat
 
 .return:
 	ret
