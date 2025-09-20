@@ -2,7 +2,7 @@
 ;  Function  : ft_list_sort.s
 ;  Prototype : void ft_list_sort(t_list ** begin_list, int (* cmp)());
 ;  Purpose   : sorts list according to passed comparison function
-;  Args      : rdi - address of address of beginning of list, rsi - address of function
+;  Args      : rdi - address of address of beginning of list, rsi - address of comparison function
 ;  Returns   : void
 ;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)
@@ -39,8 +39,8 @@ ft_list_sort:
 	cmp qword [r12 + 8], 0	; if *begin_list->next = null
 	je .return				; return (already sorted)
 
-	; --- save address of function ---
-	mov r15, rdi	; r15 = begin_list ([r15] = head)
+	; --- save arguments ---
+	mov r15, rdi	; r15 = **begin_list ([r15] = head)
 	mov rbx, rsi	; rbx = int (* cmp)()
 
 ; ===== BUBBLE SORT =====
