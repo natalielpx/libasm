@@ -15,6 +15,9 @@ typedef struct s_list {
 int 	ft_atoi_base(const char * str, int str_base);
 void	ft_list_push_front(t_list ** begin_list, void * data);
 int		ft_list_size(t_list * begin_list);
+void	ft_list_sort(t_list ** begin_list, int (* cmp)());
+
+int		ft_strcmp(const char * s1, const char * s2);
 
 int main(void) {
 
@@ -41,16 +44,27 @@ int main(void) {
 	printf("\n===== FT_LIST_PUSH_FRONT =====\n");
 	t_list ** lst = malloc(1);
 	for (int i = 0; i < N; ++i) {
-		int * data = malloc(sizeof(data));
-		*data = i + 1;
+		char * data = malloc(sizeof(data));
+		*data = i + 1 + '0';
 		ft_list_push_front(lst, data);
-		printf("pushed: %d\n", i + 1);
+		printf("pushed: %c\n", *data);
 	}
     printf("=============================\n");
 
     printf("\n===== FT_LIST_SIZE =====\n");
 	printf("list size: %d\n", ft_list_size(*lst));
     printf("========================\n");
+
+	printf("\n===== FT_LIST_SORT =====\n");
+	ft_list_sort(lst, ft_strcmp);
+
+	t_list * tmp = *lst;
+	while (tmp) {
+		printf("%s\n",tmp->data);
+		tmp = tmp->next;
+	}
+    printf("========================\n");
+
 
     return 0;
 }
