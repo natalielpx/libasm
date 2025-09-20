@@ -5,15 +5,16 @@
 
 #define STD_IN 0
 #define STD_OUT 1
-#define N 3
+#define N 11
 
 typedef struct s_list {
 	void * data;
 	struct s_list * next;
 } t_list;
 
-int ft_atoi_base(const char * str, int str_base);
-int	ft_list_size(t_list * begin_list);
+int 	ft_atoi_base(const char * str, int str_base);
+void	ft_list_push_front(t_list ** begin_list, void * data);
+int		ft_list_size(t_list * begin_list);
 
 int main(void) {
 
@@ -37,17 +38,18 @@ int main(void) {
     // printf("========================\n");
 
 
-    printf("\n===== FT_LIST_SIZE =====\n");
-	t_list * begin = malloc(sizeof(*begin));
-	t_list * lst = begin;
+	printf("\n===== FT_LIST_PUSH_FRONT =====\n");
+	t_list ** lst = malloc(1);
 	for (int i = 0; i < N; ++i) {
-		lst->data = NULL;
-		lst->next = NULL;
-		lst->next = malloc(sizeof(*lst));
-		lst = lst->next;
+		int * data = malloc(sizeof(data));
+		*data = i + 1;
+		ft_list_push_front(lst, data);
+		printf("pushed: %d\n", i + 1);
 	}
+    printf("=============================\n");
 
-	printf("list size: %d\n", ft_list_size(begin));
+    printf("\n===== FT_LIST_SIZE =====\n");
+	printf("list size: %d\n", ft_list_size(*lst));
     printf("========================\n");
 
     return 0;
