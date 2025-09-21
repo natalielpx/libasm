@@ -47,7 +47,7 @@ ft_list_sort:
 
 .rerun:
 ; --- rerun comparisons throughout list ---
-	mov r12, 0x00		; r12 = NULL (prev)
+	xor r12, r12		; r12 = NULL (prev)
 	mov r13, [r15]		; r13 = *begin_list (current)
 	mov r14, [r13 + 8]	; r14 = *begin_list->next (next)
 	xor rcx, rcx		; reset counter = 0
@@ -99,7 +99,7 @@ ft_list_sort:
 ; ===== RETURN =====
 
 .return:
-	; --- pop callee saved registers
+	; --- restore callee saved registers ---
 	pop r15
 	pop r14
 	pop r13

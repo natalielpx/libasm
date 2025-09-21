@@ -2,7 +2,7 @@
 ;  Function  : ft_list_push_front.s
 ;  Prototype : void	ft_list_push_front(t_list ** begin_list, void * data);
 ;  Purpose   : returns number of elements in linked list passed to it
-;  Args      : rdi - address of address of beginning of list, rsi -  address of data
+;  Args      : rdi - address of address of beginning of list, rsi - address of data
 ;  Returns   : void
 ;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)
