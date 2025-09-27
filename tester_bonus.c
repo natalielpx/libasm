@@ -29,18 +29,18 @@ int main(void) {
     printf("==========================\n");
     
 
-    // printf("\n===== FT_ATOI_BASE =====\n");
-    // // prompts user for value
-	// char base[100];
-    // printf("Please enter a base (2-16): ");
-    // fgets(base, sizeof(base), stdin);
-    // char str[100];
-    // printf("Please enter a value: ");
-    // // reads line of text (spaces included)
-    // fgets(str, sizeof(str), stdin);
+    printf("\n===== FT_ATOI_BASE =====\n");
+    // prompts user for value
+	char base[100];
+    printf("Please enter a base (2-16): ");
+    fgets(base, sizeof(base), stdin);
+    char str[100];
+    printf("Please enter a value: ");
+    // reads line of text (spaces included)
+    fgets(str, sizeof(str), stdin);
 
-	// printf("HAHAHA: %d\n", ft_atoi_base(str, atoi(base)));
-    // printf("========================\n");
+	printf("HAHAHA: %d\n", ft_atoi_base(str, atoi(base)));
+    printf("========================\n");
 
 
 	printf("\n===== FT_LIST_PUSH_FRONT =====\n");
