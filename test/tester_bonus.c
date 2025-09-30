@@ -10,16 +10,20 @@ int main(void) {
     
 
     printf("\n===== FT_ATOI_BASE =====\n");
-    // prompts user for value
-	char base[100];
-    printf("Please enter a base (2-16): ");
-    fgets(base, sizeof(base), stdin);
-    char str[100];
-    printf("Please enter a value: ");
-    // reads line of text (spaces included)
-    fgets(str, sizeof(str), stdin);
-
-	printf("HAHAHA: %d\n", ft_atoi_base(str, atoi(base)));
+	printf("%s	(base: %d)	= %d\n", "0", 2, ft_atoi_base("0", 2));
+	printf("%s	(base: %d)	= %d\n", "-1", 2, ft_atoi_base("-1", 2));
+	printf("%s	(base: %d)	= %d\n", "a", 2, ft_atoi_base("a", 2));
+	printf("%s	(base: %d)	= %d\n", "101010", 2, ft_atoi_base("101010", 2));
+	printf("%s	(base: %d)	= %d\n", "4242", 10, ft_atoi_base("4242", 10));
+	printf("%s	(base: %d)	= %d\n", "-42042", 10, ft_atoi_base("-42042", 10));
+	printf("%s	(base: %d)	= %d\n", "-42000", 10, ft_atoi_base("-42000", 10));
+	printf("%s	(base: %d)	= %d\n", "AD86", 16, ft_atoi_base("AD86", 16));
+	printf("%s	(base: %d)	= %d\n", "-ad86", 16, ft_atoi_base("ad86", 16));
+	printf("%s (base: %d)	= %d\n", "   -214748", 10, ft_atoi_base("   -214748", 10));
+	printf("%s (base: %d)	= %d\n", "  --214748", 10, ft_atoi_base("  --214748", 10));
+	printf("%s (base: %d)	= %d\n", "  214748a3", 10, ft_atoi_base("  214748a3", 10));
+	printf("%s (base: %d)	= %d\n", "2147483647", 10, ft_atoi_base("2147483647", 10));
+	printf("%s (base: %d)	= %d\n", "-2147483648", 10, ft_atoi_base("-2147483648", 10));
     printf("========================\n");
 
 
