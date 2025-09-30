@@ -44,9 +44,9 @@ int main(void) {
 
 
 	printf("\n===== FT_LIST_PUSH_FRONT =====\n");
-	t_list ** lst = malloc(1);
+	t_list ** lst = malloc(sizeof(*lst));
 	for (int i = 0; i < N; ++i) {
-		char * data = malloc(sizeof(data));
+		char * data = malloc(sizeof(*data));
 		*data = i + 1 + '0';
 		ft_list_push_front(lst, data);
 		printf("pushed: %c\n", *data);
@@ -62,14 +62,14 @@ int main(void) {
 	printf("\n===== FT_LIST_SORT =====\n");
 	ft_list_sort(lst, ft_strcmp);
 	for (t_list * tmp = *lst; tmp; tmp = tmp->next)
-		printf("%s\n",tmp->data);
+		printf("%c\n", (*(char *)tmp->data));
     printf("========================\n");
 
 
 	printf("\n===== FT_LIST_REMOVE_IF =====\n");
 	ft_list_remove_if(lst, ";", ft_strcmp, free);
 	for (t_list * tmp = *lst; tmp; tmp = tmp->next)
-		printf("%s\n",tmp->data);
+		printf("%c\n", (*(char *)tmp->data));
     printf("=============================\n");
 
     return 0;

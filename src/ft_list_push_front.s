@@ -23,23 +23,26 @@ global	ft_list_push_front
 ft_list_push_front:
 
 	; --- allocate memory for new element ---
-	mov rax, 16
+	push qword rdi
+	mov rdi, 16
 	call malloc wrt ..plt
+	pop rdi
 
 	; --- check if malloc failed ---
-	test	rax, rax	; if malloc returned null
-	jz		.return		; return
+	test rax, rax	; if malloc returned null
+	jz .return		; return
+
+	; --- rearrange registers ---
+	mov rdx, rax
+	mov rax, rdi
+	mov rcx, [rdi]
 
 	; --- fill new element ---
-	mov [rax], rsi
+	mov [rdx], rsi
+	mov [rdx + 8], rcx
 
-	; --- save beginning of list ---
-	push qword [rdi]
-
-	; --- push new element to front ---
-	mov [rdi], rax
-	pop rdi
-	mov [rax + 8], rdi
+	; --- set new element as begin ---
+	mov [rax], rdx
 
 .return:
 	ret

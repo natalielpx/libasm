@@ -22,14 +22,11 @@ ft_list_size:
 	xor rax, rax	; return value: count = 0
 
 .next:
-
 	; --- check null ---
 	test rdi, rdi	; check null pointer
 	jz .return		; return
-
 	; --- count element ---
 	inc rax		; ++count
-
 	; --- go to next element ---
 	mov rdi, [rdi + 8]	; obtain address of lst->next
 	jmp .next			; repeat
