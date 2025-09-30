@@ -48,4 +48,5 @@ ft_strdup:
 .error:
 	call __errno_location wrt ..plt
     mov INT [rax], ENOMEM
+	mov rax, 0
 	jmp .return
