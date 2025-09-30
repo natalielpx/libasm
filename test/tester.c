@@ -1,21 +1,8 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
-
-#define STD_IN  0
-#define STD_OUT 1
+#include "../libasm.h"
 
 #define STR "Miaouuuu"
 #define S1  "Miaouuuuu"
 #define S2  "Miaouuu"
-
-size_t  ft_strlen(const char * str);
-char *  ft_strcpy(char * dst, const char * src);
-int     ft_strcmp(const char * s1, const char * s2);
-char *  ft_strdup(const char * s);
-ssize_t ft_write(int fd, const void * buf, size_t count);
-ssize_t ft_read(int fd, void * buf, size_t count);
 
 void test_ft_strlen(char * example, char * str) {
     printf("%s\n", example);

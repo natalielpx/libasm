@@ -1,26 +1,6 @@
-#include <stdio.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
+#include "../libasm.h"
 
-#define STD_IN 0
-#define STD_OUT 1
 #define N 11
-
-typedef struct s_list {
-	void * data;
-	struct s_list * next;
-} t_list;
-
-// libasm bonus functions
-int 	ft_atoi_base(const char * str, int str_base);
-void	ft_list_push_front(t_list ** begin_list, void * data);
-int		ft_list_size(t_list * begin_list);
-void	ft_list_sort(t_list ** begin_list, int (* cmp)());
-void	ft_list_remove_if(t_list ** begin_list, void * data_ref, int (* cmp)(), void (* free_fct)(void *));
-
-// helper functions
-int		ft_strcmp(const char * s1, const char * s2);
 
 int main(void) {
 	

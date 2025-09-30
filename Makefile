@@ -5,6 +5,7 @@
 ######################################
 
 NAME    = libasm.a
+HEADER	= libasm.h
 TESTER	= tester
 
 NAME_BONUS    	= libasm_bonus.a
@@ -30,6 +31,7 @@ MKDIR   = mkdir -p
 NASMFLAGS	= -f elf64 -F dwarf
 CFLAGS		= -Wall -Wextra -Werror
 DBFLAG		= -g
+INCL	 	= -I.
 
 ######################################
 # 	SOURCES/OBJECTS
@@ -66,6 +68,9 @@ all: $(NAME)
 $(NAME): ${OBJS}
 	$(AR) rcs $@ $^
 
+$(NAME_BONUS): ${OBJS_BONUS}
+	$(AR) rcs $@ $^
+
 $(OBJ_DIR)%.o: $(SRC_DIR)%.s | $(OBJ_DIR)
 	$(NASM) $(NASMFLAGS) $(DBGFLAGS) $< -o $@
 
@@ -74,6 +79,14 @@ $(OBJ_DIR):
 
 %.o: %.s
 	$(NASM) ${NASMFLAGS} ${DBFLAGS} $< -o $@
+
+tester: $(NAME) $(TESTER_DIR)$(TESTER).c $(HEADER)
+	$(CC) ${CFLAGS} $(INCL) -c $(TESTER_DIR)$(TESTER).c -o $(OBJ_DIR)$(TESTER).o
+	$(CC) ${CFLAGS} $(DBFLAG) $(OBJ_DIR)$(TESTER).o -L. -lasm -o $(TESTER)
+
+bonus: $(NAME_BONUS) $(TESTER_DIR)$(TESTER_BONUS).c $(HEADER)
+	$(CC) ${CFLAGS} $(INCL) -c $(TESTER_DIR)$(TESTER_BONUS).c -o $(OBJ_DIR)$(TESTER_BONUS).o
+	$(CC) ${CFLAGS} $(DBFLAG) $(OBJ_DIR)$(TESTER_BONUS).o -L. -lasm_bonus -o $(BONUS)
 
 clean:
 	$(RMDIR) $(OBJ_DIR)
@@ -84,21 +97,6 @@ fclean: clean
 	$(RM) $(BONUS)
 	$(RM) $(NAME_BONUS)
 
-tester: $(NAME) $(TESTER_DIR)$(TESTER).c
-	$(CC) ${CFLAGS} -c $(TESTER_DIR)$(TESTER).c -o $(OBJ_DIR)$(TESTER).o
-	$(CC) ${CFLAGS} $(DBFLAG) $(OBJ_DIR)$(TESTER).o -L. -lasm -o $(TESTER)
-
 re: fclean all
 
-arm: $(NAME) $(TESTER_DIR)$(TESTER).c
-	$(ARMCC) ${CFLAGS} -c $(TESTER_DIR)$(TESTER).c -o $(OBJ_DIR)$(TESTER).o
-	$(ARMCC) ${CFLAGS} $(DBFLAG) $(OBJ_DIR)$(TESTER).o -L. -lasm -o $(TESTER)
-
-$(NAME_BONUS): ${OBJS_BONUS}
-	$(AR) rcs $@ $^
-
-bonus: $(NAME_BONUS) $(TESTER_DIR)$(TESTER_BONUS).c
-	$(CC) ${CFLAGS} -c $(TESTER_DIR)$(TESTER_BONUS).c -o $(OBJ_DIR)$(TESTER_BONUS).o
-	$(CC) ${CFLAGS} $(DBFLAG) $(OBJ_DIR)$(TESTER_BONUS).o -L. -lasm_bonus -o $(BONUS)
-
-.phony: all clean fclean tester re arm bonus
+.phony: all clean fclean tester re bonus
