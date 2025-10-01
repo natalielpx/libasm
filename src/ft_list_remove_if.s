@@ -36,7 +36,7 @@ ft_list_remove_if:
 	cmp PTR [rdi], 0	; *begin_list = NULL
 	je .return
 
-; --- push callee saved registers
+; --- push callee saved registers ---
 	push rbx
 	push r12
 	push r13
