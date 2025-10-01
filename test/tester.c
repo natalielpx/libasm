@@ -27,25 +27,37 @@ void test_ft_strdup(char * example, char * str) {
     printf("%s\n", example);
 
     char * dup = strdup(str);
-    printf("strdup    : %s\n", dup);
-    free(dup);
+    if (!dup)
+        printf("errno: %d\n", errno);
+    else {
+        printf("strdup    : %s\n", dup);
+        free(dup);
+    }
     
     dup = ft_strdup(str);
-    printf("ft_strdup : %s\n", dup);
-    free(dup);
+    if (!dup)
+        printf("errno: %d\n", errno);
+    else {
+        printf("ft_strdup : %s\n", dup);
+        free(dup);
+    }
 }
 
 void test_ft_write(char * example, int fd, char * str) {
 
     printf("%s\n", example);
 
-    size_t written = write(fd, str, strlen(str));
+    int written = write(fd, str, strlen(str));
     printf("\n");
-    printf("write    : %zu\n", written);
+    printf("write    : %d\n", written);
+    if (written < 0)
+        printf("errno: %d\n", errno);
 
     written = ft_write(fd, str, strlen(str));
     printf("\n");
-    printf("ft_write : %zu\n", written);
+    printf("ft_write : %d\n", written);
+    if (written < 0)
+        printf("errno: %d\n", errno);
 }
 
 int main(void) {
@@ -99,6 +111,7 @@ int main(void) {
     // writing from NULL pointer causes segfault
     test_ft_write("Empty String", STD_OUT, "");
     test_ft_write("Non NULL-terminated string", STD_OUT, no_null);
+    test_ft_write(STR, -1, STR);
     test_ft_write(STR, STD_OUT, STR);
     printf("====================\n");
 
@@ -107,15 +120,24 @@ int main(void) {
 
     memset(buf, 0, 100);
     write(STD_OUT, "Please enter a string (<=10 characters): ", 41);
-    size_t readd = read(STD_IN, buf, 10);
-    printf("read : %zu\n", readd);
+    int readd = read(STD_IN, buf, 10);
+    printf("read : %d\n", readd);
     printf("%s\n", buf);
+    if (readd < 0)
+        printf("errno: %d\n", errno);
 
     memset(buf, 0, 100);
     write(STD_OUT, "Please enter the same string: ", 30);
     readd = ft_read(STD_IN, buf, 10);
-    printf("ft_read : %zu\n", readd);
+    printf("ft_read : %d\n", readd);
     printf("%s\n", buf);
+    if (readd < 0)
+        printf("errno: %d\n", errno);
+
+    ft_read(-1, buf, 10);
+    printf("errno: %d\n", errno);
+    read(-1, buf, 10);
+    printf("errno: %d\n", errno);
 
     printf("===================\n");
 
