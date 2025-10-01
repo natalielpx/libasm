@@ -4,7 +4,6 @@
 ;  Purpose   : Immitates (man 3 strdup)
 ;  Args      : rdi - pointer to src
 ;  Returns   : rax = pointer to dup
-;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
@@ -18,37 +17,44 @@ extern	__errno_location
 extern	ft_strlen
 extern	ft_strcpy
 
-segment .text
+section .text
 	global	ft_strdup
 
 ft_strdup:
-
-	; --- save s ptr in stack ---
+; --- save s ptr in stack ---
 	push	rdi
-
-	; --- allocate length + 1 memory ---
+; --- obtain length of s ---
+ 	; size_t ft_strlen(const char * str);
+	; rdi = s;
 	call	ft_strlen			; ft_strlen(s)
+	; rax = length of s;
+; --- allocate length + 1 memory ---
 	inc		rax					; length + 1
 	mov		rdi, rax			; arg1 = length + 1
+	; void *malloc(size_t size);
+	; rdi = length + 1
 	call	malloc wrt ..plt	; malloc(length + 1) with respect to procedure linkage table entry
-
-	; --- check if malloc failed ---
+	; rax = pointer to allocated memory
+; --- check if malloc failed ---
 	test	rax, rax	; if malloc returned null
 	jz		.error		; set errno
-	
-	; --- copy from s to memory obtained via malloc ---
+; --- copy from s to memory obtained via malloc ---
 	pop		rdi			; restore s ptr from stack
-	mov		rsi, rdi	; set s as arg2
-	mov		rdi, rax	; set dup as arg1
+	mov		rsi, rdi	; set s as arg2 (src)
+	mov		rdi, rax	; set dup as arg1 (dst)
+	; char * ft_strcpy(char * dst, const char * src);
+	; rdi = dup
+	; rsi = s
 	call	ft_strcpy	; ft_strcpy(dup, s)
 
 .return:
+	; rax = dup (success)
+	; rax = NULL (failure)
 	ret
 
 .error:
-    neg rax                ; rax = -rax (= errno value)
-    mov edi, eax
+	; int * __errno_location(void)
     call __errno_location wrt ..plt
-    mov [rax], edi         ; *errno (4 bytes) = error number
-    mov rax, -1            ; return value = -1
+    mov [rax], INT ENOMEM	; *errno (4 bytes) = error number
+	mov rax, 0				; set rax = NULL
 	jmp .return
