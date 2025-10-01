@@ -2,6 +2,16 @@
 
 #define N 11
 
+void free_lst(void * ptr) {
+	t_list * lst = (t_list *)ptr;
+	if (lst->data) {
+		free(lst->data);
+		lst->data = NULL;
+	}
+	free(lst);
+	lst = NULL;
+}
+
 int main(void) {
 	
 	printf("==========================\n");
@@ -58,14 +68,23 @@ int main(void) {
 
 
 	printf("\n===== FT_LIST_REMOVE_IF =====\n");
-	ft_list_remove_if(NULL, "4", ft_strcmp, free);
-	ft_list_remove_if(lst, "4", NULL, free);
+	ft_list_remove_if(NULL, "4", ft_strcmp, free_lst);
+	ft_list_remove_if(lst, "4", NULL, free_lst);
 	ft_list_remove_if(lst, "4", ft_strcmp, NULL);
 
-	ft_list_remove_if(lst, "4", ft_strcmp, free);
+	ft_list_remove_if(lst, "4", ft_strcmp, free_lst);
 	for (t_list * tmp = *lst; tmp; tmp = tmp->next)
 		printf("%c\n", (*(char *)tmp->data));
     printf("=============================\n");
+
+
+	while (*lst) {
+		t_list * next = (*lst)->next;
+		free_lst(*lst);
+		*lst = next;
+	}
+	free(lst);
+	lst = NULL;
 
     return 0;
 }
