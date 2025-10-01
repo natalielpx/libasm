@@ -22,15 +22,27 @@ global	ft_list_push_front
 
 ft_list_push_front:
 
+; ===== CHECK =====
+
+	; --- check if null ---
+	test rdi, rdi
+	jz .return
+
+; ===== MEMORY ALLOCATION =====
+
 	; --- allocate memory for new element ---
 	push qword rdi
+	push qword rsi
 	mov rdi, 16
 	call malloc wrt ..plt
+	pop rsi
 	pop rdi
 
 	; --- check if malloc failed ---
 	test rax, rax	; if malloc returned null
 	jz .return		; return
+
+; ===== PUSH TO FRONT =====
 
 	; --- rearrange registers ---
 	mov rdx, rax
@@ -43,6 +55,8 @@ ft_list_push_front:
 
 	; --- set new element as begin ---
 	mov [rax], rdx
+
+; ===== RETURN =====
 
 .return:
 	ret

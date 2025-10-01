@@ -25,21 +25,27 @@ ft_list_sort:
 
 ; ===== INITIALISATION =====
 
-	; --- push callee saved registers
-	push rbx	; function
-	push r12	; prev
-	push r13	; current
-	push r14	; next
-	push r15	; **begin_list (head)
+; --- check if null ---
+	test rdi, rdi
+	je .return
+	test rsi, rsi
+	je .return
 
-	; --- check list size >= 2 ---
+; --- check list size >= 2 ---
 	cmp qword [rdi], 0		; if *begin_list = null
 	je .return				; return (nothing to sort)
 	mov r12, [rdi]			; (unable to perform [[rdi] + 8])
 	cmp qword [r12 + 8], 0	; if *begin_list->next = null
 	je .return				; return (already sorted)
 
-	; --- save arguments ---
+; --- push callee saved registers
+	push rbx	; function
+	push r12	; prev
+	push r13	; current
+	push r14	; next
+	push r15	; **begin_list (head)
+
+; --- save arguments ---
 	mov r15, rdi	; r15 = **begin_list ([r15] = head)
 	mov rbx, rsi	; rbx = int (* cmp)()
 
@@ -98,12 +104,13 @@ ft_list_sort:
 
 ; ===== RETURN =====
 
-.return:
-	; --- restore callee saved registers ---
+; --- restore callee saved registers ---
 	pop r15
 	pop r14
 	pop r13
 	pop r12
 	pop rbx
-	; --- return ---
+
+.return:
+; --- return ---
 	ret
