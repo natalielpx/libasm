@@ -4,26 +4,28 @@
 ;  Purpose   : Immitates (man 3 strlen)
 ;  Args      : rdi - pointer to string
 ;  Returns   : rax = length
-;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
-segment .text
+%define	CHAR byte
+
+section .text
 	global	ft_strlen
 
 ft_strlen:
-	; --- initialisation ---
-	xor rax, rax	; return value: length = 0
+; --- initialisation ---
+	; rax = return value
+	xor rax, rax	; return value: len = 0
 
 .count:
-
-	; --- check if end of string ---
-	cmp byte [rdi + rax], 0	; if null character (1 byte) reached
+; --- check if end of string ---
+	; rdi = arg1
+	cmp CHAR [rdi + rax], 0	; if *(str + len) == 0
 	je .return				; return
-	
-	; --- count character ---
-	inc rax					; else increment
-	jmp .count				; repeat
+; --- count character ---
+	inc rax		; else ++len
+	jmp .count	; repeat
 
 .return:
+	; rax = length of str
 	ret
