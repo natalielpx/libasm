@@ -46,7 +46,9 @@ ft_strdup:
 	ret
 
 .error:
-	call __errno_location wrt ..plt
-    mov INT [rax], ENOMEM
-	mov rax, 0
+    neg rax                ; rax = -rax (= errno value)
+    mov edi, eax
+    call __errno_location wrt ..plt
+    mov [rax], edi         ; *errno (4 bytes) = error number
+    mov rax, -1            ; return value = -1
 	jmp .return
