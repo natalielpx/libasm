@@ -4,7 +4,6 @@
 ;  Purpose   : removes from list all elements where cmp(data, data_ref) returns 0
 ;  Args      : rdi - address of beginning of list, rsi - data reference, rdx - address of comparison function, rcx - freeing function
 ;  Returns   : void
-;  Clobbers  :
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
@@ -14,7 +13,9 @@
 ;     struct s_list *next;
 ; } t_list;
 
-segment .text
+%define PTR dword
+
+section .text
 global	ft_list_remove_if
 
 ft_list_remove_if:
@@ -22,31 +23,31 @@ ft_list_remove_if:
 ; ===== INITIALISATION =====
 
 ; --- check if null ---
-	test rdi, rdi
-	je .return
-	test rsi, rsi
-	je .return
-	test rdx, rdx
-	je .return
-	test rcx, rcx
-	je .return
+	test rdi, rdi	; if begin_list == NULL
+	je .return		; return
+	test rsi, rsi	; if data_ref == NULL
+	je .return		; return
+	test rdx, rdx	; if comparison function missing
+	je .return		; return
+	test rcx, rcx	; if freeing function mission
+	je .return		; return
 
 ; --- check lst size >= 1 ---
-	cmp qword [rdi], 0	; *begin_list = NULL
+	cmp PTR [rdi], 0	; *begin_list = NULL
 	je .return
 
 ; --- push callee saved registers
-	push rbx	; **begin_list
-	push r12	; prev
-	push r13	; current
-	push r14	; data_ref
-	push r15	; comparison function
+	push rbx
+	push r12
+	push r13
+	push r14
+	push r15
 
 ; --- save arguments ---
 	mov rbx, rdi	; rbx = **begin_list
 	xor r12, r12	; r12 = NULL (prev)
 	mov r13, [rdi]	; r13 = *begin_list (current)
-	mov r14, rsi	; r14 = *data_ref
+	mov r14, rsi	; r14 = data_ref
 	mov r15, rdx	; r15 = int (* cmp)() (comparison function)
 	push rcx		; push freeing function (less used)
 
@@ -54,26 +55,32 @@ ft_list_remove_if:
 
 .compare:
 ; --- compare current element data against reference ---
-	mov rdi, r14	; arg1 = *data_ref
-; PROBLEM HERE [R13] CAUSING SEGFAULT
+	mov rdi, r14	; arg1 = data_ref
+; !! if lst->data == NULL, [R13] will SEGFAULT !!
+	cmp PTR r13, 0	; if lst->data == NULL
+	je .next		; move on to next element
 	mov rsi, [r13]	; arg2 = lst->data
-	call r15		; call int (* cmp)(*data_ref, lst->data)
-	cmp rax, 0
-	je .remove
+	; int (* cmp)(data_ref, lst->data)
+	; arg1 = rdi = data_ref
+	; arg2 = rsi = lst->data
+	call r15		; call int (* cmp)()
+	; rax = difference
+	cmp rax, 0		; if *(data_ref) == *(lst->data)
+	je .remove		; remove element
 ; --- next ---
 	mov r12, r13		; prev = current
 	mov r13, [r13 + 8]	; current = current->next
-	jmp .check_end
+	jmp .check_end		; check if end of list reached
 
 ; ===== REMOVAL =====
 
 .remove:
-; --- engineer my fucking way around the lack of registers ---
+; --- engineer my way around the lack of registers ---
 	mov rdi, r13		; arg1 = current (element to free)
-	mov r13, [r13 + 8]	; r13 = next
-; --- if is head ---
-	cmp r12, 0
-	jne .not_head
+	mov r13, [r13 + 8]	; r13 = current->next = next
+; --- check if head ---
+	cmp r12, 0		; if prev != NULL
+	jne .not_head	; 'connect' the two ends of the broken list
 ; --- update head ---
 	mov [rbx], r13	; *begin_list = next
 	jmp .free
@@ -85,15 +92,17 @@ ft_list_remove_if:
 .free:
 ; --- free removed element ---
 	pop rbx		; pop freeing function into rbx (recycling no longer needed registers)
+	; rdi = current
+	; void (* free_fct)(void *)
 	call rbx	; free(current)
-	push rbx	; push it back to stack
+	push rbx	; push freeing function back to stack
 
 ; ===== BASE CASE =====
 
 .check_end:
-; --- check end ---
-	cmp r13, 0	; if reached end of list
-	jne .compare
+; --- check if end ---
+	cmp r13, 0		; if not end of list
+	jne .compare	; repeat
 
 ; ===== RETURN =====
 
@@ -107,5 +116,5 @@ ft_list_remove_if:
 	pop rbx
 
 .return:
-; --- return ---
+; --- return void ---
 	ret
