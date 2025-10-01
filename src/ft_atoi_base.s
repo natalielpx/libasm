@@ -1,6 +1,6 @@
 ; ===== FT_ATOI_BASE ========================================================================= ;
 ;  Function  : ft_atoi_base.s
-;  Prototype : int ft_atoi_base(const char * str, int str_base);
+;  Prototype : int ft_atoi_base(const char * str, int base);
 ;  Purpose   : converts string argument to base 10 integer and returns it
 ;  Args      : rdi - string, rsi - base
 ;  Returns   : base 10 integer

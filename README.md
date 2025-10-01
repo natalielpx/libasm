@@ -2,15 +2,21 @@
 ## :open_file_folder: Project Overview
 Introductory project to x86-64 assembly  
 A library of several fundamental functions written in assembly
-## :triangular_ruler: Requirements
+## :triangular_ruler: Prerequisites
 ### Operating System
 Compiled and tested on Linux (x86-64 architecture)
 ### Assembler
-Netwide Assembler (NASM)  
+**Netwide Assembler (NASM)**  
 Used to assemble assembly source files into object files
 ### Compiler & Linker
-GNU Compiler Collection (gcc)  
+**GNU Compiler Collection (gcc)**  
 Used to compile tester files, link object files into a library, and then link library with tester files
+### Optional (But Useful)
+**GNU Project debugger (gdb)**  
+Used to inspect what goes on in a program as it executes  
+**Valgrind**  
+Used to detect memory management and threading bugs
+
 ## :pushpin: Learning Objectives
 ### Syntax
 #### Intel vs AT&T
@@ -60,8 +66,10 @@ Returns the address of the errno variable for the current thread
 │   │   [ Bonus functions ]
 │   ├── ft_atoi_base.s
 │   └── ...
-├── tester.c
-├── tester_bonus.c
+├── test/
+│   ├── tester.c
+│   └── tester_bonus.c
+├── libasm.h
 ├── Makefile
 └── README.md
 ```
@@ -73,8 +81,8 @@ ft_write (man 2 write)
 ft_read (man 2 read)  
 ft_strdup (man 3 strdup)
 ### Bonus Functions
-#### `int ft_atoi_base(const char * str, int str_base);`
-Converts string argument `str` of 2 <= `str_base` <= 16 to an integer (base 10)  
+#### `int ft_atoi_base(const char * str, int base);`
+Converts string argument `str` of 2 <= `base` <= 16 to an integer (base 10)  
 Returns converted integer
 ```
 typedef struct s_list {
@@ -82,6 +90,7 @@ typedef struct s_list {
     struct s_list *next;
 } t_list;
 ```
+**REMARK:** This function differs from what the subject requires. The subject asks for ft_atoi_base to take in a string for the base. I have merely decided that this version of ft_atoi_base makes more sense to me, and forfeited completing this particular part of the bonus.
 #### `void ft_list_push_front(t_list ** begin_list, void * data);`
 Inserts a new element at the beginning of the list, right before its current first element  
 `data` is copied/moved to the inserted element
@@ -115,20 +124,25 @@ make bonus
 ## :test_tube: Tester Files
 ### tester.c (for mandatory functions)
 Tested cases include:  
-| Type | Singularities / Edge Cases |
+| Type | Special Cases |
 | ---- | ----- |
-| numbers | negative values, 0, large values, decimal values |
-| strings | NULL pointers, non null-terminated strings |
+| strings | NULL pointers, empty strings, non null-terminated strings |
 ### tester_bonus.c (for bonus functions)
 Tested cases include:  
 | Type | Singularities / Edge Cases |
 | ---- | ----- |
-| strings | white spaces, invalid 'digits', non-valid characters, multiple '-' |
+| strings | white spaces, invalid 'digits', long strings, non-valid characters, multiple '-' |
 | lists | NULL pointers |
 ## :lady_beetle: Debugging
 ### gdb
 Use gdb to look under the hood of the program and watch how the it alters the values of the registers.  
 Place breakpoints and step instruction by instruction to inspect register changes.  
+```
+gdb tester
+```
+```
+gdb bonus
+```
 ### valgrind
 ```
 valgrind ./tester
