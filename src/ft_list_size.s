@@ -4,7 +4,6 @@
 ;  Purpose   : returns number of elements in linked list passed to it
 ;  Args      : rdi - address of beginning of list
 ;  Returns   : rax = length of list
-;  Clobbers  : rax
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
@@ -14,7 +13,7 @@
 ;     struct s_list *next;
 ; } t_list;
 
-segment .text
+section .text
 global	ft_list_size
 
 ft_list_size:
@@ -23,6 +22,7 @@ ft_list_size:
 
 .next:
 ; --- check null ---
+	; rdi = begin_list (t_list *)
 	test rdi, rdi	; check null pointer
 	jz .return		; return
 ; --- count element ---
@@ -32,4 +32,5 @@ ft_list_size:
 	jmp .next			; repeat
 
 .return:
+; --- return rax = element count ---
 	ret

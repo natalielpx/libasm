@@ -7,6 +7,12 @@
 ;  Arch      : x86-64 Linux (System V ABI)
 ; ============================================================================================ ;
 
+; ===== Structure of expected address of list passed =====
+; typedef struct s_list {
+;     void          *data;
+;     struct s_list *next;
+; } t_list;
+
 %define	INT	dword
 
 ENOMEM	equ 12
@@ -14,12 +20,6 @@ ENOMEM	equ 12
 default	rel
 extern	malloc
 extern	__errno_location
-
-; ===== Structure of expected address of list passed =====
-; typedef struct s_list {
-;     void          *data;
-;     struct s_list *next;
-; } t_list;
 
 section .text
 global	ft_list_push_front
